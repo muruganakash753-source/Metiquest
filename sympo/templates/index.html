@@ -1,0 +1,168 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>METIQUEST'26 - Government College of Engineering, Tirunelveli</title>
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;700;800&family=Playfair+Display:wght@700;900&display=swap"
+        rel="stylesheet">
+</head>
+
+<body>
+    <header class="header">
+        <div class="theme-switch-wrapper">
+            <label class="theme-switch" for="checkbox">
+                <input type="checkbox" id="checkbox" />
+                <div class="slider round">
+                    <span class="icon sun">☀️</span>
+                    <span class="icon moon">🌙</span>
+                </div>
+            </label>
+        </div>
+
+        <nav class="navbar">
+            <div class="logo-container" data-target="home">
+                <video src="{% static 'images/logo.mp4' %}" class="logo-icon" autoplay loop muted playsinline></video>
+                <span class="logo-text"><span class="orange">METI</span>QUEST'26</span>
+            </div>
+
+            <ul class="nav-links">
+                <li><a href="#home" class="nav-link active" data-target="home">HOME</a></li>
+                <li><a href="#events" class="nav-link" data-target="events">EVENTS</a></li>
+                <li><a href="#coordinators" class="nav-link" data-target="coordinators">COORDINATORS</a></li>
+                <li><a href="#gallery" class="nav-link" data-target="gallery">GALLERY</a></li>
+            </ul>
+
+            <a href="{{ reg_link }}" target="_blank" class="btn-register nav-link">REGISTER</a>
+
+            <div class="hamburger">
+                <span class="bar"></span>
+                <span class="bar"></span>
+                <span class="bar"></span>
+            </div>
+        </nav>
+    </header>
+
+    <div class="main-content">
+        <main class="page-section active" id="home">
+            <div class="hero-content">
+                <p class="subtitle">National Level Mechanical Symposium</p>
+                <h1 class="headline">We build innovation in</h1>
+                <h2 class="main-title"><span class="orange">METI</span>QUEST<span class="orange">'26</span></h2>
+
+                <div class="date-badge">
+                    <span>April 8th, 2026</span>
+                </div>
+
+                <p class="arena-text">THE GRAND ARENA</p>
+                <p class="location">
+                    GOVERNMENT COLLEGE OF ENGINEERING<br>
+                    TIRUNELVELI, TAMILNADU
+                </p>
+
+                <div class="countdown-container">
+                    <div class="time-box"><span id="days">00</span><small>DAYS</small></div>
+                    <div class="time-box"><span id="hours">00</span><small>HOURS</small></div>
+                    <div class="time-box"><span id="minutes">00</span><small>MINS</small></div>
+                    <div class="time-box"><span id="seconds">00</span><small>SECS</small></div>
+                </div>
+            </div>
+
+            <div class="hero-image">
+                <img src="{% static 'images/mascot.png' %}" alt="Mechanical Astronaut Robot" class="main-illustration">
+            </div>
+        </main>
+
+        <section id="events" class="page-section section-container">
+            <h2 class="section-title">Symposium <span class="orange">Events</span></h2>
+            <div class="events-grid">
+                {% for event in events %}
+                <div class="event-card">
+                    <div class="card-header">
+                        <h3>{{ event.name }}</h3>
+                        <span
+                            class="badge {% if event.category == 'Technical' %}tech-badge{% else %}non-tech-badge{% endif %}">
+                            {{ event.category }}
+                        </span>
+                    </div>
+                    <p class="event-desc">{{ event.description }}</p>
+                    <div class="event-meta">
+                        <p><strong>🕒 Time:</strong> {{ event.start_time|time:"H:i" }} - {{ event.end_time|time:"H:i" }}
+                        </p>
+                        <p><strong>👥 Max Team Size:</strong> {{ event.max_members }}</p>
+                    </div>
+                </div>
+                {% empty %}
+                <p class="text-center" style="grid-column: 1 / -1;">Events will be announced shortly!</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="coordinators" class="page-section section-container bg-light">
+            <h2 class="section-title">Event <span class="orange">Coordinators</span></h2>
+
+            <h3 class="coord-split-title">Faculty In-Charge</h3>
+            <div class="coordinators-grid minimal-grid">
+                {% for coord in faculty_coordinators %}
+                <div class="coordinator-profile">
+                    {% if coord.profile_pic %}
+                    <img src="{{ coord.profile_pic.url }}" alt="{{ coord.name }}" class="coord-avatar">
+                    {% else %}
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Default Avatar" class="coord-avatar">
+                    {% endif %}
+                    <h4>{{ coord.name }}</h4>
+                    <p class="role-tag faculty-tag">Faculty</p>
+                    <p class="contact">📞 {{ coord.contact_number }}</p>
+                </div>
+                {% empty %}
+                <p class="text-center" style="grid-column: 1 / -1;">Faculty coordinators will be updated soon.</p>
+                {% endfor %}
+            </div>
+
+            <h3 class="coord-split-title mt-5">Student Coordinators</h3>
+            <div class="coordinators-grid minimal-grid">
+                {% for coord in student_coordinators %}
+                <div class="coordinator-profile">
+                    {% if coord.profile_pic %}
+                    <img src="{{ coord.profile_pic.url }}" alt="{{ coord.name }}" class="coord-avatar">
+                    {% else %}
+                    <img src="{% static 'images/default-avatar.png' %}" alt="Default Avatar" class="coord-avatar">
+                    {% endif %}
+                    <h4>{{ coord.name }}</h4>
+                    <p class="role-tag student-tag">Student</p>
+                    <p class="contact">📞 {{ coord.contact_number }}</p>
+                </div>
+                {% empty %}
+                <p class="text-center" style="grid-column: 1 / -1;">Student coordinators will be updated soon.</p>
+                {% endfor %}
+            </div>
+        </section>
+
+        <section id="gallery" class="page-section section-container">
+            <h2 class="section-title">Event <span class="orange">Gallery</span></h2>
+            {% regroup gallery_images by heading as gallery_groups %}
+            {% for group in gallery_groups %}
+            <div class="gallery-group">
+                <h3 class="gallery-heading">{{ group.grouper }}</h3>
+                <div class="gallery-grid">
+                    {% for item in group.list %}
+                    <div class="gallery-item">
+                        <img src="{{ item.image.url }}" alt="{{ group.grouper }} Photo">
+                    </div>
+                    {% endfor %}
+                </div>
+            </div>
+            {% empty %}
+            <p class="text-center">Gallery is currently empty. Check back later!</p>
+            {% endfor %}
+        </section>
+    </div>
+
+    <script src="{% static 'js/main.js' %}"></script>
+</body>
+
+</html>
