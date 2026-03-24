@@ -120,10 +120,21 @@ USE_I18N = True
 
 USE_TZ = True
 
+STORAGES = {
+    "default": {
+        "BACKEND": "cloudinary_storage.storage.MediaCloudinaryStorage",
+    },
+    "staticfiles": {
+        "BACKEND": "whitenoise.storage.CompressedManifestStaticFilesStorage",
+    },
+}
+
 # STATIC FILES (CSS, JS, Images)
 STATIC_URL = 'static/'
 STATIC_ROOT = os.path.join(BASE_DIR, 'staticfiles')
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+if not os.path.exists(STATICFILES_DIRS[0]):
+    os.makedirs(STATICFILES_DIRS[0])
 
 # MEDIA FILES (Uploads go to Cloudinary)
 MEDIA_URL = '/media/'
